@@ -17,6 +17,7 @@
 		4DE3C5531C0CA4E700EA4094 /* PokemanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C5521C0CA4E700EA4094 /* PokemanTests.swift */; };
 		4DE3C55E1C0CA4E700EA4094 /* PokemanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C55D1C0CA4E700EA4094 /* PokemanUITests.swift */; };
 		4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */; };
+		4DE3C56E1C0CF94700EA4094 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C56D1C0CF94700EA4094 /* hit.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		4DE3C55D1C0CA4E700EA4094 /* PokemanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemanUITests.swift; sourceTree = "<group>"; };
 		4DE3C55F1C0CA4E700EA4094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walking.mp3; sourceTree = "<group>"; };
+		4DE3C56D1C0CF94700EA4094 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				4DE3C53D1C0CA4E700EA4094 /* GameScene.swift */,
 				4DE3C53F1C0CA4E700EA4094 /* GameViewController.swift */,
 				4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */,
+				4DE3C56D1C0CF94700EA4094 /* hit.mp3 */,
 				4DE3C5411C0CA4E700EA4094 /* Main.storyboard */,
 				4DE3C5441C0CA4E700EA4094 /* Assets.xcassets */,
 				4DE3C5461C0CA4E700EA4094 /* LaunchScreen.storyboard */,
@@ -241,6 +244,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DE3C56E1C0CF94700EA4094 /* hit.mp3 in Resources */,
 				4DE3C53C1C0CA4E700EA4094 /* GameScene.sks in Resources */,
 				4DE3C5481C0CA4E700EA4094 /* LaunchScreen.storyboard in Resources */,
 				4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */,

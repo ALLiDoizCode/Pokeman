@@ -9,7 +9,7 @@
 import SpriteKit
 import AVFoundation
 
-class GameScene: SKScene {
+class GameScene: SKScene,SKPhysicsContactDelegate {
     
     let myNumber:Int = 10
     let gameName:String = "Pokeman"
@@ -20,6 +20,8 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        
+        self.physicsWorld.contactDelegate = self
     
         if let theSpriteNode:SKSpriteNode = self.childNodeWithName("MaleSprite") as? SKSpriteNode {
             
@@ -43,7 +45,7 @@ class GameScene: SKScene {
         do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
             playSound.numberOfLoops = 1
             playSound.prepareToPlay()
-            playSound.play()
+            //playSound.play()
         
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
@@ -59,6 +61,39 @@ class GameScene: SKScene {
             
             playSound.stop()
         }
+    }
+    
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+        
+        /*var playSound:AVAudioPlayer = AVAudioPlayer()
+        
+        
+        let SoundEffect:NSURL = NSBundle.mainBundle().URLForResource("hit", withExtension: "mp3")!
+        do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
+        playSound.numberOfLoops = 1
+        playSound.prepareToPlay()
+        playSound.play()*/
+
+        
+        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 {
+            
+            print("hit")
+            
+            let soundEffect:SKAction = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
+            
+            malePlayer.runAction(soundEffect)
+            
+            }else if contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1  {
+            
+            print("hit")
+            
+            
+        }
+        
+        
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
