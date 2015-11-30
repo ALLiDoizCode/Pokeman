@@ -45,7 +45,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
             playSound.numberOfLoops = 1
             playSound.prepareToPlay()
-            //playSound.play()
+            playSound.play()
         
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
