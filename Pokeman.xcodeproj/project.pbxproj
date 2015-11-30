@@ -16,6 +16,7 @@
 		4DE3C5481C0CA4E700EA4094 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C5461C0CA4E700EA4094 /* LaunchScreen.storyboard */; };
 		4DE3C5531C0CA4E700EA4094 /* PokemanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C5521C0CA4E700EA4094 /* PokemanTests.swift */; };
 		4DE3C55E1C0CA4E700EA4094 /* PokemanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C55D1C0CA4E700EA4094 /* PokemanUITests.swift */; };
+		4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		4DE3C5591C0CA4E700EA4094 /* PokemanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokemanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE3C55D1C0CA4E700EA4094 /* PokemanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemanUITests.swift; sourceTree = "<group>"; };
 		4DE3C55F1C0CA4E700EA4094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walking.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				4DE3C53B1C0CA4E700EA4094 /* GameScene.sks */,
 				4DE3C53D1C0CA4E700EA4094 /* GameScene.swift */,
 				4DE3C53F1C0CA4E700EA4094 /* GameViewController.swift */,
+				4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */,
 				4DE3C5411C0CA4E700EA4094 /* Main.storyboard */,
 				4DE3C5441C0CA4E700EA4094 /* Assets.xcassets */,
 				4DE3C5461C0CA4E700EA4094 /* LaunchScreen.storyboard */,
@@ -193,6 +196,9 @@
 		4DE3C52E1C0CA4E700EA4094 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Jonathan Green";
@@ -237,6 +243,7 @@
 			files = (
 				4DE3C53C1C0CA4E700EA4094 /* GameScene.sks in Resources */,
 				4DE3C5481C0CA4E700EA4094 /* LaunchScreen.storyboard in Resources */,
+				4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */,
 				4DE3C5451C0CA4E700EA4094 /* Assets.xcassets in Resources */,
 				4DE3C5431C0CA4E700EA4094 /* Main.storyboard in Resources */,
 			);
