@@ -29,6 +29,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if let theSpriteNode:SKSpriteNode = self.childNodeWithName("MaleSprite") as? SKSpriteNode {
             
             malePlayer = theSpriteNode
+            
         }
         
         if let theLabelNode:SKLabelNode = self.childNodeWithName("score") as? SKLabelNode {
@@ -55,6 +56,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     func tappedView(sender:UITapGestureRecognizer){
         
         var playSound:AVAudioPlayer = AVAudioPlayer()
+        var scaleDirection:CGFloat!
+        var walk:SKAction!
         
         let SoundEffect:NSURL = NSBundle.mainBundle().URLForResource("Walking", withExtension: "mp3")!
         do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
@@ -65,22 +68,91 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
         
-        let move:SKAction = SKAction.moveTo(touchLocation, duration: 0.6)
-        move.timingMode = .EaseOut
         
-       
+        let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 200, duration: 1.0)
+        let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 200, duration: 1.0)
+        let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 200, duration: 1.0)
+        let moveDown:SKAction = SKAction.moveToY(malePlayer.position.y - 200, duration: 1.0)
+        moveRight.timingMode = .EaseOut
+        moveLeft.timingMode = .EaseOut
+        moveUp.timingMode = .EaseOut
+        moveDown.timingMode = .EaseOut
         
-        print("tapped")
-        
-        malePlayer.runAction(move) { () -> Void in
+        // go left
+        if touchLocation.x <= CGRectGetMidX(malePlayer.frame) && (touchLocation.y <= malePlayer.frame.origin.y + 100 &&  touchLocation.y >= malePlayer.frame.origin.y - 100) {
             
-            playSound.stop()
+            scaleDirection = 1.0
+            walk = SKAction(named: "left")!
+            print("tapped")
+            
+            malePlayer.runAction(walk)
+            
+            malePlayer.runAction(moveLeft) { () -> Void in
+                
+                playSound.stop()
+                walk = SKAction.stop()
+                self.malePlayer.texture = SKTexture(imageNamed: "WalkingLeft69")
+                
+            }
+            
+            
+            //go right
+        }else if touchLocation.x >= CGRectGetMidX(malePlayer.frame) && (touchLocation.y <= malePlayer.frame.origin.y + 100 &&  touchLocation.y >= malePlayer.frame.origin.y - 100) {
+            
+            scaleDirection = -1.0
+            walk = SKAction(named: "walk")!
+            print("tapped")
+            
+            malePlayer.runAction(walk)
+            
+            malePlayer.runAction(moveRight) { () -> Void in
+                
+                playSound.stop()
+                walk = SKAction.stop()
+                self.malePlayer.texture = SKTexture(imageNamed: "WalkingRight87")
+                
+            }
+            
+           
+            // go up
+        }else if touchLocation.y >= CGRectGetMidY(malePlayer.frame) && (touchLocation.x >= CGRectGetMidX(malePlayer.frame) || touchLocation.x <= CGRectGetMidX(malePlayer.frame)) {
+            
+            scaleDirection = 1.0
+            walk = SKAction(named: "up")!
+            print("tapped")
+            
+            malePlayer.runAction(walk)
+            
+            malePlayer.runAction(moveUp) { () -> Void in
+                
+                playSound.stop()
+                walk = SKAction.stop()
+                self.malePlayer.texture = SKTexture(imageNamed: "WalkingUp61")
+                
+            }
+            
+            // go down
+        }else if touchLocation.y <= CGRectGetMidY(malePlayer.frame) {
+            scaleDirection = -1.0
+            walk = SKAction(named: "down")!
+            print("tapped")
+            
+            malePlayer.runAction(walk)
+            
+            malePlayer.runAction(moveDown) { () -> Void in
+                
+                playSound.stop()
+                walk = SKAction.stop()
+                self.malePlayer.texture = SKTexture(imageNamed: "WalkingDown78")
+                
+            }
+            
         }
+    
     }
     
     
     func didBeginContact(contact: SKPhysicsContact) {
-        
         
         /*var playSound:AVAudioPlayer = AVAudioPlayer()
         
