@@ -14,13 +14,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     let myNumber:Int = 10
     let gameName:String = "Pokeman"
     var malePlayer:SKSpriteNode = SKSpriteNode()
+    var grass:SKSpriteNode = SKSpriteNode()
     var scoreLabel:SKLabelNode = SKLabelNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
     var life = 5
     
+    
     let tapRect = UITapGestureRecognizer()
 
     override func didMoveToView(view: SKView) {
+        
+        makeGrass()
         
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
@@ -50,6 +54,29 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.view!.addGestureRecognizer(tapRect)
         
        
+    }
+    
+    func makeGrass() {
+        
+        let grassCount = 6
+        let count = 11
+        var ogPosition = CGPoint(x: 460, y: 90)
+        var position = CGPoint(x: 460, y: 90)
+
+        for var i = 0; i < grassCount; i++ {
+            
+            for var j = 0; j < count; j++ {
+                
+                grass = SKSpriteNode(imageNamed: "8")
+                grass.position = position
+                position = CGPoint(x: position.x, y: position.y + 60)
+                addChild(grass)
+            }
+            
+            position = CGPoint(x: position.x + 50, y: ogPosition.y)
+
+        }
+        
     }
     
     
@@ -150,7 +177,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
     
     }
-    
     
     func didBeginContact(contact: SKPhysicsContact) {
         
