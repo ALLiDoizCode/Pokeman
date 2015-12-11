@@ -93,8 +93,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 grass.physicsBody = SKPhysicsBody(rectangleOfSize: grass.size)
                 grass.physicsBody?.dynamic = true
                 grass.physicsBody?.categoryBitMask = 3
-                
-                grass.physicsBody?.collisionBitMask = 0
+                grass.physicsBody?.collisionBitMask = 2
                 grass.physicsBody?.affectedByGravity = false
                 grass.physicsBody?.pinned = true
                 grass.position = position
@@ -132,7 +131,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func tappedView(sender:UITapGestureRecognizer){
         
-        var scaleDirection:CGFloat!
         var walk:SKAction!
         
         walking?.play()
@@ -141,10 +139,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         touchLocation = self.convertPointFromView(touchLocation)
         
         
-        let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 150, duration: 1.0)
-        let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 150, duration: 1.0)
-        let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 150, duration: 1.0)
-        let moveDown:SKAction = SKAction.moveToY(malePlayer.position.y - 150, duration: 1.0)
+        let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 120, duration: 1.0)
+        let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 120, duration: 1.0)
+        let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 120, duration: 1.0)
+        let moveDown:SKAction = SKAction.moveToY(malePlayer.position.y - 120, duration: 1.0)
         moveRight.timingMode = .EaseOut
         moveLeft.timingMode = .EaseOut
         moveUp.timingMode = .EaseOut
@@ -272,7 +270,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 3 {
             
-            let random = Int(arc4random_uniform(50))
+            let random = Int(arc4random_uniform(470))
             
             if random == 1 {
                 
@@ -298,7 +296,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
         }else if contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 1 {
             
-            let random = Int(arc4random_uniform(50))
+            let random = Int(arc4random_uniform(470))
           
             if random == 1 {
                 
