@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4DCFF8391C1A0BD5006A4877 /* MyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4DCFF8381C1A0BD5006A4877 /* MyActions.sks */; };
+		4DCFF83B1C1A3876006A4877 /* battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DCFF83A1C1A3876006A4877 /* battle.mp3 */; };
 		4DE3C53A1C0CA4E700EA4094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C5391C0CA4E700EA4094 /* AppDelegate.swift */; };
 		4DE3C53C1C0CA4E700EA4094 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C53B1C0CA4E700EA4094 /* GameScene.sks */; };
 		4DE3C53E1C0CA4E700EA4094 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C53D1C0CA4E700EA4094 /* GameScene.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		4DCFF8381C1A0BD5006A4877 /* MyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyActions.sks; sourceTree = "<group>"; };
+		4DCFF83A1C1A3876006A4877 /* battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = battle.mp3; sourceTree = "<group>"; };
 		4DE3C5361C0CA4E700EA4094 /* Pokeman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokeman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DE3C5391C0CA4E700EA4094 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DE3C53B1C0CA4E700EA4094 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				4DE3C5391C0CA4E700EA4094 /* AppDelegate.swift */,
 				4DE3C53B1C0CA4E700EA4094 /* GameScene.sks */,
 				4DE3C53D1C0CA4E700EA4094 /* GameScene.swift */,
+				4DCFF83A1C1A3876006A4877 /* battle.mp3 */,
 				4DE858C41C10E8810056925B /* GameOver.mp3 */,
 				4DE3C53F1C0CA4E700EA4094 /* GameViewController.swift */,
 				4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */,
@@ -257,6 +260,7 @@
 				4DE3C5481C0CA4E700EA4094 /* LaunchScreen.storyboard in Resources */,
 				4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */,
 				4DE3C5451C0CA4E700EA4094 /* Assets.xcassets in Resources */,
+				4DCFF83B1C1A3876006A4877 /* battle.mp3 in Resources */,
 				4DE3C5431C0CA4E700EA4094 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

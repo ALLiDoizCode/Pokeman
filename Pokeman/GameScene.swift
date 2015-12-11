@@ -16,8 +16,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var malePlayer:SKSpriteNode = SKSpriteNode()
     var grass:SKSpriteNode = SKSpriteNode()
     var scoreLabel:SKLabelNode = SKLabelNode()
+    var bg:SKSpriteNode = SKSpriteNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
     var life = 5
+    
+    var battle : AVAudioPlayer?
+    var walking : AVAudioPlayer?
+    var endMusic : AVAudioPlayer?
     
     
     let tapRect = UITapGestureRecognizer()
@@ -25,6 +30,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         
         makeGrass()
+        
+        if let battle = self.setupAudioPlayerWithFile("battle", type:"mp3") {
+            self.battle = battle
+        }
+        if let walking = self.setupAudioPlayerWithFile("Walking", type:"mp3") {
+            self.walking = walking
+        }
+        if let endMusic = self.setupAudioPlayerWithFile("GameOver", type:"mp3") {
+            self.endMusic = endMusic
+        }
         
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
@@ -48,6 +63,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             gameOverLabel.hidden = true
         }
         
+        if let theLabelNode:SKSpriteNode = self.childNodeWithName("bg") as? SKSpriteNode {
+            
+            bg = theLabelNode
+            bg.color = UIColor.clearColor()
+            
+        }
+        
         tapRect.addTarget(self, action: "tappedView:")
         tapRect.numberOfTapsRequired = 1
         tapRect.numberOfTouchesRequired = 1
@@ -68,7 +90,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             for var j = 0; j < count; j++ {
                 
                 grass = SKSpriteNode(imageNamed: "8")
+                grass.physicsBody = SKPhysicsBody(rectangleOfSize: grass.size)
+                grass.physicsBody?.dynamic = true
+                grass.physicsBody?.categoryBitMask = 3
+                
+                grass.physicsBody?.collisionBitMask = 0
+                grass.physicsBody?.affectedByGravity = false
+                grass.physicsBody?.pinned = true
                 grass.position = position
+                grass.blendMode = .Screen
+                grass.colorBlendFactor = 0.45
+                
                 position = CGPoint(x: position.x, y: position.y + 60)
                 addChild(grass)
             }
@@ -79,27 +111,40 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
     }
     
+    func setupAudioPlayerWithFile(file:NSString, type:NSString) -> AVAudioPlayer?  {
+        
+        let path = NSBundle.mainBundle().pathForResource(file as String, ofType: type as String)
+        let url = NSURL.fileURLWithPath(path!)
+        
+        
+        var audioPlayer:AVAudioPlayer?
+        
+        
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOfURL: url)
+        } catch {
+            print("Player not available")
+        }
+        
+        return audioPlayer
+    }
+    
     
     func tappedView(sender:UITapGestureRecognizer){
         
-        var playSound:AVAudioPlayer = AVAudioPlayer()
         var scaleDirection:CGFloat!
         var walk:SKAction!
         
-        let SoundEffect:NSURL = NSBundle.mainBundle().URLForResource("Walking", withExtension: "mp3")!
-        do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
-            playSound.numberOfLoops = 1
-            playSound.prepareToPlay()
-            playSound.play()
+        walking?.play()
         
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
         
         
-        let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 200, duration: 1.0)
-        let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 200, duration: 1.0)
-        let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 200, duration: 1.0)
-        let moveDown:SKAction = SKAction.moveToY(malePlayer.position.y - 200, duration: 1.0)
+        let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 150, duration: 1.0)
+        let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 150, duration: 1.0)
+        let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 150, duration: 1.0)
+        let moveDown:SKAction = SKAction.moveToY(malePlayer.position.y - 150, duration: 1.0)
         moveRight.timingMode = .EaseOut
         moveLeft.timingMode = .EaseOut
         moveUp.timingMode = .EaseOut
@@ -116,7 +161,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             malePlayer.runAction(moveLeft) { () -> Void in
                 
-                playSound.stop()
+                self.walking!.stop()
                 walk = SKAction.stop()
                 self.malePlayer.texture = SKTexture(imageNamed: "WalkingLeft69")
                 
@@ -134,7 +179,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             malePlayer.runAction(moveRight) { () -> Void in
                 
-                playSound.stop()
+                self.walking!.stop()
                 walk = SKAction.stop()
                 self.malePlayer.texture = SKTexture(imageNamed: "WalkingRight87")
                 
@@ -152,7 +197,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             malePlayer.runAction(moveUp) { () -> Void in
                 
-                playSound.stop()
+                self.walking!.stop()
                 walk = SKAction.stop()
                 self.malePlayer.texture = SKTexture(imageNamed: "WalkingUp61")
                 
@@ -168,7 +213,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             malePlayer.runAction(moveDown) { () -> Void in
                 
-                playSound.stop()
+                self.walking!.stop()
                 walk = SKAction.stop()
                 self.malePlayer.texture = SKTexture(imageNamed: "WalkingDown78")
                 
@@ -180,22 +225,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        /*var playSound:AVAudioPlayer = AVAudioPlayer()
+        let soundEffect:SKAction = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
+        let delay:SKAction = SKAction.waitForDuration(0.2)
+        let flashBlack:SKAction = SKAction.runBlock { () -> Void in
+            
+            self.bg.color = UIColor.blackColor()
+        }
+        
+        let flashClear:SKAction = SKAction.runBlock { () -> Void in
+            
+            self.bg.color = UIColor.clearColor()
+        }
         
         
-        let SoundEffect:NSURL = NSBundle.mainBundle().URLForResource("hit", withExtension: "mp3")!
-        do { playSound = try AVAudioPlayer(contentsOfURL: SoundEffect, fileTypeHint: nil) } catch _ { return print("file not found") }
-        playSound.numberOfLoops = 1
-        playSound.prepareToPlay()
-        playSound.play()*/
-
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 {
             
             print("hit")
-            
-            let soundEffect:SKAction = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
-            let gameOverSound:SKAction = SKAction.playSoundFileNamed("GameOver.mp3", waitForCompletion: false)
             
             malePlayer.runAction(soundEffect)
             
@@ -211,11 +257,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 
                 malePlayer.hidden = true
                 gameOverLabel.hidden = false
-                gameOverLabel.runAction((gameOverSound), completion: { () -> Void in
-                    
-                    self.gameOverLabel.removeAllActions()
+                endMusic?.play()
                 
-                })
+                bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
                 
             }
             
@@ -223,6 +267,56 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             print("hit")
             
+            
+        }
+        
+        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 3 {
+            
+            let random = Int(arc4random_uniform(50))
+            
+            if random == 1 {
+                
+                battle?.play()
+                print("grass")
+                self.malePlayer.removeActionForKey("soundEffect")
+                self.malePlayer.removeActionForKey("walk")
+                self.view?.removeGestureRecognizer(tapRect)
+                
+                bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
+            }
+            
+           
+            
+            if ((battle?.playing) != nil)  {
+                
+                print("first")
+                
+            }else{
+                
+                
+            }
+            
+        }else if contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 1 {
+            
+            let random = Int(arc4random_uniform(50))
+          
+            if random == 1 {
+                
+                battle?.play()
+                print("grass")
+                self.malePlayer.removeActionForKey("soundEffect")
+                self.malePlayer.removeActionForKey("walk")
+                self.view?.removeGestureRecognizer(tapRect)
+            }
+            
+            if ((battle?.playing) != nil)  {
+                
+                print("second")
+                
+            }else{
+                
+               
+            }
             
         }
         
