@@ -13,13 +13,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     let myNumber:Int = 10
     let gameName:String = "Pokeman"
+    var life = 5
+    
+    //Sprites
     var malePlayer:SKSpriteNode = SKSpriteNode()
     var grass:SKSpriteNode = SKSpriteNode()
     var scoreLabel:SKLabelNode = SKLabelNode()
     var bg:SKSpriteNode = SKSpriteNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
-    var life = 5
     
+    //Sounds
     var battle : AVAudioPlayer?
     var walking : AVAudioPlayer?
     var endMusic : AVAudioPlayer?
@@ -31,6 +34,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         makeGrass()
         
+        //asigns sounds to audioplayer
         if let battle = self.setupAudioPlayerWithFile("battle", type:"mp3") {
             self.battle = battle
         }
@@ -41,10 +45,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             self.endMusic = endMusic
         }
         
+        
         self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         
         self.physicsWorld.contactDelegate = self
-    
+        
+        
+        //asigns sprite sheets to skspritenodes
         if let theSpriteNode:SKSpriteNode = self.childNodeWithName("MaleSprite") as? SKSpriteNode {
             
             malePlayer = theSpriteNode
@@ -70,6 +77,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
         }
         
+        //creates tap gesture and adds it to the scene
         tapRect.addTarget(self, action: "tappedView:")
         tapRect.numberOfTapsRequired = 1
         tapRect.numberOfTouchesRequired = 1
@@ -78,15 +86,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
        
     }
     
+    //programically creates rows of grass
     func makeGrass() {
         
         let grassCount = 6
         let count = 11
-        var ogPosition = CGPoint(x: 460, y: 90)
+        let ogPosition = CGPoint(x: 460, y: 90)
         var position = CGPoint(x: 460, y: 90)
-
+        
+        //this loop creates rows of grass  horizontaly
         for var i = 0; i < grassCount; i++ {
             
+            //this loop creates row vertically
             for var j = 0; j < count; j++ {
                 
                 grass = SKSpriteNode(imageNamed: "8")
@@ -110,6 +121,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
     }
     
+    
+    //func that returns audio player for each sound
     func setupAudioPlayerWithFile(file:NSString, type:NSString) -> AVAudioPlayer?  {
         
         let path = NSBundle.mainBundle().pathForResource(file as String, ofType: type as String)
@@ -129,6 +142,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     
+    // recieves user tap from scene and runs configuration
     func tappedView(sender:UITapGestureRecognizer){
         
         var walk:SKAction!
@@ -138,7 +152,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
         
-        
+        //setups up malesprite movent disntace direction and duration
         let moveRight:SKAction = SKAction.moveToX(malePlayer.position.x + 120, duration: 1.0)
         let moveLeft:SKAction = SKAction.moveToX(malePlayer.position.x - 120, duration: 1.0)
         let moveUp:SKAction = SKAction.moveToY(malePlayer.position.y + 120, duration: 1.0)
@@ -151,7 +165,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         // go left
         if touchLocation.x <= CGRectGetMidX(malePlayer.frame) && (touchLocation.y <= malePlayer.frame.origin.y + 100 &&  touchLocation.y >= malePlayer.frame.origin.y - 100) {
             
-            scaleDirection = 1.0
             walk = SKAction(named: "left")!
             print("tapped")
             
@@ -169,7 +182,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             //go right
         }else if touchLocation.x >= CGRectGetMidX(malePlayer.frame) && (touchLocation.y <= malePlayer.frame.origin.y + 100 &&  touchLocation.y >= malePlayer.frame.origin.y - 100) {
             
-            scaleDirection = -1.0
             walk = SKAction(named: "walk")!
             print("tapped")
             
@@ -187,7 +199,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             // go up
         }else if touchLocation.y >= CGRectGetMidY(malePlayer.frame) && (touchLocation.x >= CGRectGetMidX(malePlayer.frame) || touchLocation.x <= CGRectGetMidX(malePlayer.frame)) {
             
-            scaleDirection = 1.0
             walk = SKAction(named: "up")!
             print("tapped")
             
@@ -203,7 +214,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             // go down
         }else if touchLocation.y <= CGRectGetMidY(malePlayer.frame) {
-            scaleDirection = -1.0
+            
             walk = SKAction(named: "down")!
             print("tapped")
             
@@ -221,8 +232,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     }
     
+    
+    // configures actions based on physics contants
     func didBeginContact(contact: SKPhysicsContact) {
         
+        //setups up skactions
         let soundEffect:SKAction = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
         let delay:SKAction = SKAction.waitForDuration(0.2)
         let flashBlack:SKAction = SKAction.runBlock { () -> Void in
@@ -247,6 +261,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             scoreLabel.text = "\(life)"
             
+            //checks current life count then takes of 1 life or ends game
             if life < 1 {
                 
                 scoreLabel.text = "You are Dead"
@@ -270,6 +285,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 3 {
             
+            //if maleplayer has contact with grass setups a random number genrator 1 - 469 it number is 1 runs encouter
+            
             let random = Int(arc4random_uniform(470))
             
             if random == 1 {
@@ -283,17 +300,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
             }
             
-           
-            
-            if ((battle?.playing) != nil)  {
-                
-                print("first")
-                
-            }else{
-                
-                
-            }
-            
+            //if maleplayer has contact with grass setups a random number genrator 1 - 469 it number is 1 runs encouter
         }else if contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 1 {
             
             let random = Int(arc4random_uniform(470))
@@ -305,15 +312,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 self.malePlayer.removeActionForKey("soundEffect")
                 self.malePlayer.removeActionForKey("walk")
                 self.view?.removeGestureRecognizer(tapRect)
-            }
-            
-            if ((battle?.playing) != nil)  {
-                
-                print("second")
-                
-            }else{
-                
-               
             }
             
         }
