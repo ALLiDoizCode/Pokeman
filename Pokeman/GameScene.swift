@@ -20,7 +20,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var grass:SKSpriteNode = SKSpriteNode()
     var scoreLabel:SKLabelNode = SKLabelNode()
     var bg:SKSpriteNode = SKSpriteNode()
+    var pause:SKSpriteNode = SKSpriteNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
+  
     
     //Sounds
     var battle : AVAudioPlayer?
@@ -64,11 +66,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             scoreLabel.text = "\(life)"
         }
         
-        if let theLabelNode:SKLabelNode = self.childNodeWithName("GameOver") as? SKLabelNode {
+        if let theSpriteNode:SKLabelNode = self.childNodeWithName("GameOver") as? SKLabelNode {
             
-            gameOverLabel = theLabelNode
+            gameOverLabel = theSpriteNode
             gameOverLabel.hidden = true
         }
+        
+        if let theSpriteNode:SKSpriteNode = self.childNodeWithName("pause") as? SKSpriteNode {
+            
+            pause = theSpriteNode
+           
+        }
+        
         
         if let theLabelNode:SKSpriteNode = self.childNodeWithName("bg") as? SKSpriteNode {
             
@@ -147,7 +156,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         var walk:SKAction!
         
-        walking?.play()
+        
+        //checks is scene is paused
+        if self.view?.paused == true {
+            
+        }else {
+            
+            walking?.play()
+        }
+        
+        
         
         var touchLocation:CGPoint = sender.locationInView(self.view!)
         touchLocation = self.convertPointFromView(touchLocation)
@@ -323,7 +341,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         
-        
+        for touch: AnyObject in touches {
+            // Gets the location of touch in  scene
+            let location = touch.locationInNode(self)
+            // Checks if touch is within the button's bounds
+            if pause.containsPoint(location) {
+                print("tapped")
+                
+                //checks if view is scene is paused
+                if self.view?.paused == true {
+                    
+                    self.view?.paused = false
+                    
+                }else {
+                    
+                    //stops sounds when pause
+                        battle?.stop()
+                        walking?.stop()
+                        endMusic?.stop()
+                        
+                        self.view?.paused = true
+                
+                }
+            }
+        }
     }
    
     override func update(currentTime: CFTimeInterval) {
