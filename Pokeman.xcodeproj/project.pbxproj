@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D33BB5C1C232B3500B17D63 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D33BB5B1C232B3500B17D63 /* MenuScene.swift */; };
 		4DCFF8391C1A0BD5006A4877 /* MyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4DCFF8381C1A0BD5006A4877 /* MyActions.sks */; };
 		4DCFF83B1C1A3876006A4877 /* battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DCFF83A1C1A3876006A4877 /* battle.mp3 */; };
 		4DE3C53A1C0CA4E700EA4094 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE3C5391C0CA4E700EA4094 /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D33BB5B1C232B3500B17D63 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		4DCFF8381C1A0BD5006A4877 /* MyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyActions.sks; sourceTree = "<group>"; };
 		4DCFF83A1C1A3876006A4877 /* battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = battle.mp3; sourceTree = "<group>"; };
 		4DE3C5361C0CA4E700EA4094 /* Pokeman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pokeman.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 				4DE3C5441C0CA4E700EA4094 /* Assets.xcassets */,
 				4DE3C5461C0CA4E700EA4094 /* LaunchScreen.storyboard */,
 				4DE3C5491C0CA4E700EA4094 /* Info.plist */,
+				4D33BB5B1C232B3500B17D63 /* MenuScene.swift */,
 			);
 			path = Pokeman;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DE3C53E1C0CA4E700EA4094 /* GameScene.swift in Sources */,
+				4D33BB5C1C232B3500B17D63 /* MenuScene.swift in Sources */,
 				4DE3C5401C0CA4E700EA4094 /* GameViewController.swift in Sources */,
 				4DE3C53A1C0CA4E700EA4094 /* AppDelegate.swift in Sources */,
 			);

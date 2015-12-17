@@ -16,12 +16,43 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bY-dn-mKG">
+                                <rect key="frame" x="253" y="341" width="95" height="48"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Credits"/>
+                                <connections>
+                                    <action selector="creditBtn:" destination="BV1-FR-VrT" eventType="touchUpInside" id="cc6-py-LK6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="05H-0y-0e1">
+                                <rect key="frame" x="268" y="276" width="64" height="48"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startBtn:" destination="BV1-FR-VrT" eventType="touchUpInside" id="yh6-td-dHd"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3bY-dn-mKG" firstAttribute="top" secondItem="05H-0y-0e1" secondAttribute="bottom" constant="17" id="9ru-Yr-GwH"/>
+                            <constraint firstItem="3bY-dn-mKG" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="RDK-dr-Or3"/>
+                            <constraint firstItem="05H-0y-0e1" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="UyY-w5-zXm"/>
+                            <constraint firstItem="05H-0y-0e1" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="YgG-sq-LlY"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="credits" destination="3bY-dn-mKG" id="NKh-UA-1Ua"/>
+                        <outlet property="start" destination="05H-0y-0e1" id="TJQ-mc-eIg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="565" y="394"/>
         </scene>
     </scenes>
 </document>
