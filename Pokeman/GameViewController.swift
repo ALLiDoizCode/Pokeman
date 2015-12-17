@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var start: UIButton!
     @IBOutlet weak var credits: UIButton!
-    
+    @IBOutlet weak var instructions: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,22 +26,28 @@ class GameViewController: UIViewController {
 
     @IBAction func startBtn(sender: AnyObject) {
         
-        if let scene = GameScene(fileNamed:"GameScene") {
-        // Configure the view.
-        let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        startScene()
+   
+    }
+    
+    func startScene(){
         
-        /* Sprite Kit applies additional optimizations to improve rendering performance */
-        skView.ignoresSiblingOrder = true
-        scene.scaleMode = .AspectFill
-        let theTransition:SKTransition = SKTransition.fadeWithDuration(0.10)
-        skView.presentScene(scene, transition: theTransition)
+        if let scene = GameScene(fileNamed:"GameScene") {
+            // Configure the view.
+            let skView = self.view as! SKView
+            skView.showsFPS = true
+            skView.showsNodeCount = true
+            
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = true
+            scene.scaleMode = .AspectFill
+            let theTransition:SKTransition = SKTransition.fadeWithDuration(0.10)
+            skView.presentScene(scene, transition: theTransition)
             
             start.hidden = true
             credits.hidden = true
+            instructions.hidden = true
         }
-   
     }
    
     @IBAction func creditBtn(sender: AnyObject) {

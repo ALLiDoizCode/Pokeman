@@ -22,6 +22,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var bg:SKSpriteNode = SKSpriteNode()
     var pause:SKSpriteNode = SKSpriteNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
+    var restartbutton = UIButton();
   
     
     //Sounds
@@ -31,6 +32,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     
     let tapRect = UITapGestureRecognizer()
+    let tapRestart = UITapGestureRecognizer()
 
     override func didMoveToView(view: SKView) {
         
@@ -58,6 +60,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             malePlayer = theSpriteNode
             
+            
         }
         
         if let theLabelNode:SKLabelNode = self.childNodeWithName("score") as? SKLabelNode {
@@ -72,6 +75,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             gameOverLabel.hidden = true
         }
         
+
         if let theSpriteNode:SKSpriteNode = self.childNodeWithName("pause") as? SKSpriteNode {
             
             pause = theSpriteNode
@@ -91,6 +95,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         tapRect.numberOfTapsRequired = 1
         tapRect.numberOfTouchesRequired = 1
         self.view!.addGestureRecognizer(tapRect)
+        
+        tapRestart.addTarget(self, action: "restartScene:")
+        tapRestart.numberOfTapsRequired = 1
+        tapRestart.numberOfTouchesRequired = 1
         
        
     }
@@ -113,7 +121,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 grass.physicsBody = SKPhysicsBody(rectangleOfSize: grass.size)
                 grass.physicsBody?.dynamic = true
                 grass.physicsBody?.categoryBitMask = 3
-                grass.physicsBody?.collisionBitMask = 2
+                grass.physicsBody?.collisionBitMask = 0
                 grass.physicsBody?.affectedByGravity = false
                 grass.physicsBody?.pinned = true
                 grass.position = position
@@ -271,6 +279,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 {
             
+            malePlayer.physicsBody?.collisionBitMask = 2
+            
             print("hit")
             
             malePlayer.runAction(soundEffect)
@@ -282,6 +292,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             //checks current life count then takes of 1 life or ends game
             if life < 1 {
                 
+                //makeButton()
+                
                 scoreLabel.text = "You are Dead"
                 
                 self.view?.removeGestureRecognizer(tapRect)
@@ -291,7 +303,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 endMusic?.play()
                 
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
-                
+                restartScene()
             }
             
             }else if contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1  {
@@ -303,9 +315,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 3 {
             
-            //if maleplayer has contact with grass setups a random number genrator 1 - 469 it number is 1 runs encouter
+            malePlayer.physicsBody?.collisionBitMask = 0
             
-            let random = Int(arc4random_uniform(470))
+            //if maleplayer has contact with grass setups a random number genrator 1 - 100 it number is 1 runs encouter
+            
+            let random = Int(arc4random_uniform(100))
             
             if random == 1 {
                 
@@ -318,10 +332,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
             }
             
-            //if maleplayer has contact with grass setups a random number genrator 1 - 469 it number is 1 runs encouter
+            //if maleplayer has contact with grass setups a random number genrator 1 - 100 it number is 1 runs encouter
         }else if contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 1 {
             
-            let random = Int(arc4random_uniform(470))
+            malePlayer.physicsBody?.collisionBitMask = 0
+            
+            let random = Int(arc4random_uniform(100))
           
             if random == 1 {
                 
@@ -338,6 +354,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
     }
     
+    func makeButton(){
+        
+        restartbutton.setTitle("Restart", forState: .Normal)
+        restartbutton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        restartbutton.titleLabel!.font = UIFont.systemFontOfSize(100)
+        restartbutton.frame = CGRectMake(390, 100, 400, 100)
+        
+        self.view!.addSubview(restartbutton)
+        
+        restartbutton.addTarget(self, action: "restartScene", forControlEvents: .TouchUpInside)
+    }
+    
+    func restartScene() {
+        self.removeAllChildren()
+        self.removeAllActions()
+        restartbutton.removeFromSuperview()
+        let gameScene = GameScene(fileNamed:"GameScene")
+        let transition = SKTransition.doorsCloseHorizontalWithDuration(0.5)
+        gameScene!.scaleMode = SKSceneScaleMode.AspectFill
+        self.scene!.view?.presentScene(gameScene!, transition: transition)
+        self.view?.paused = false
+        
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
         
@@ -345,15 +385,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             // Gets the location of touch in  scene
             let location = touch.locationInNode(self)
             // Checks if touch is within the button's bounds
+            
+           
+            
             if pause.containsPoint(location) {
                 print("tapped")
                 
+                
                 //checks if view is scene is paused
                 if self.view?.paused == true {
-                    
                     self.view?.paused = false
                     
+                    
                 }else {
+                    
+                    makeButton()
                     
                     //stops sounds when pause
                         battle?.stop()
@@ -361,7 +407,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                         endMusic?.stop()
                         
                         self.view?.paused = true
-                
+                                    
                 }
             }
         }
