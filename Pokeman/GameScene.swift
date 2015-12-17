@@ -181,7 +181,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         moveDown.timingMode = .EaseOut
         
         // go left
-        if touchLocation.x <= CGRectGetMidX(malePlayer.frame)  && touchLocation.y >= malePlayer.frame.origin.y - 100 {
+        if touchLocation.x <= CGRectGetMidX(malePlayer.frame) - 30  {
             
             walk = SKAction(named: "left")!
             print("tapped")
@@ -198,7 +198,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             
             //go right
-        }else if touchLocation.x >= CGRectGetMidX(malePlayer.frame) && (touchLocation.y <= malePlayer.frame.origin.y + 100 &&  touchLocation.y >= malePlayer.frame.origin.y - 100) {
+        }else if touchLocation.x >= CGRectGetMidX(malePlayer.frame) + 30 {
             
             walk = SKAction(named: "walk")!
             print("tapped")
