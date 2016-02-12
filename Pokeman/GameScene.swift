@@ -17,12 +17,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //Sprites
     var malePlayer:SKSpriteNode = SKSpriteNode()
+    var NPC:SKSpriteNode = SKSpriteNode()
     var grass:SKSpriteNode = SKSpriteNode()
     var scoreLabel:SKLabelNode = SKLabelNode()
+    var text:SKLabelNode = SKLabelNode()
     var bg:SKSpriteNode = SKSpriteNode()
     var pause:SKSpriteNode = SKSpriteNode()
+    var button:SKSpriteNode = SKSpriteNode()
     var gameOverLabel:SKLabelNode = SKLabelNode()
     var restartbutton = UIButton();
+    var textBox = SKShapeNode()
   
     
     //Sounds
@@ -63,10 +67,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
         }
         
+        if let theSpriteNode:SKSpriteNode = self.childNodeWithName("NPC") as? SKSpriteNode {
+            
+            NPC = theSpriteNode
+            
+            
+        }
+        
         if let theLabelNode:SKLabelNode = self.childNodeWithName("score") as? SKLabelNode {
             
             scoreLabel = theLabelNode
             scoreLabel.text = "\(life)"
+        }
+        
+        
+        if let theLabelNode:SKLabelNode = self.childNodeWithName("text") as? SKLabelNode {
+            
+            text = theLabelNode
+            text.hidden = true
         }
         
         if let theSpriteNode:SKLabelNode = self.childNodeWithName("GameOver") as? SKLabelNode {
@@ -80,6 +98,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             pause = theSpriteNode
            
+        }
+        
+        if let theSpriteNode:SKSpriteNode = self.childNodeWithName("button") as? SKSpriteNode {
+            
+            button = theSpriteNode
+            button.hidden = true
+            
+        }
+        
+        
+        if let theSpriteNode:SKShapeNode = self.childNodeWithName("textbox") as? SKShapeNode {
+            
+            textBox = theSpriteNode
+            textBox.hidden = true
+            
         }
         
         
@@ -275,7 +308,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             self.bg.color = UIColor.clearColor()
         }
         
+        if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 4 {
+            
+            textBox.hidden = false
+            text.hidden = false
+            button.hidden = false
+            self.view?.paused = true
+            walking?.stop()
+            
+        }
         
+        if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 1 {
+            
+            textBox.hidden = false
+            text.hidden = false
+            button.hidden = false
+            self.view?.paused = true
+            walking?.stop()
+        }
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2 {
             
@@ -385,6 +435,36 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             // Gets the location of touch in  scene
             let location = touch.locationInNode(self)
             // Checks if touch is within the button's bounds
+            
+            if button.containsPoint(location) {
+                
+                print("button")
+                
+                
+                //checks if view is scene is paused
+                if self.view?.paused == true {
+                    self.view?.paused = false
+                    textBox.hidden = true
+                    text.hidden = true
+                    button.hidden = true
+                    
+                    
+                }else {
+                    
+                    makeButton()
+                    
+                    //stops sounds when pause
+                    //battle?.stop()
+                    walking?.stop()
+                    //endMusic?.stop()
+                    
+                    self.view?.paused = true
+                    
+                }
+
+                
+                
+            }
             
            
             
