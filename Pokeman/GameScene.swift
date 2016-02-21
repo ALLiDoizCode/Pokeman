@@ -14,6 +14,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     let myNumber:Int = 10
     let gameName:String = "Pokeman"
     var life = 5
+    var binaryCount = 0b0000
+    var timer = NSTimer()
     
     //Sprites
     var malePlayer:SKSpriteNode = SKSpriteNode()
@@ -27,7 +29,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var gameOverLabel:SKLabelNode = SKLabelNode()
     var restartbutton = UIButton();
     var textBox = SKShapeNode()
-  
+    let presenter = Presenter()
     
     //Sounds
     var battle : AVAudioPlayer?
@@ -371,6 +373,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             let random = Int(arc4random_uniform(100))
             
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "countUp", userInfo: nil, repeats: true)
+            
+            NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+            
             if random == 1 {
                 
                 battle?.play()
@@ -378,6 +384,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 self.malePlayer.removeActionForKey("soundEffect")
                 self.malePlayer.removeActionForKey("walk")
                 self.view?.removeGestureRecognizer(tapRect)
+                addScore()
                 
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
             }
@@ -388,19 +395,42 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             malePlayer.physicsBody?.collisionBitMask = 0
             
             let random = Int(arc4random_uniform(100))
+            
+            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "countUp", userInfo: nil, repeats: true)
+            
+            NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
           
             if random == 1 {
+                
                 
                 battle?.play()
                 print("grass")
                 self.malePlayer.removeActionForKey("soundEffect")
                 self.malePlayer.removeActionForKey("walk")
                 self.view?.removeGestureRecognizer(tapRect)
+                
+                addScore()
             }
             
         }
         
         
+        
+    }
+    
+    func countUp() {
+        
+        binaryCount += 0b0001
+        // if the counter reached 16, reset it to 0
+        if (binaryCount == 0b10000) { binaryCount = 0b0000 }
+    }
+    
+    func addScore() {
+        
+        presenter.addScore(binaryCount)
+        print("score \(binaryCount) added")
+        timer.invalidate()
+        binaryCount = 0b0000
         
     }
     

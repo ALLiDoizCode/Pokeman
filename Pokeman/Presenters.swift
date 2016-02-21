@@ -12,14 +12,20 @@ class Presenter {
     
     let theLeaderBoard = LeaderBoard()
     
-    func signin(userName:String,pass:String){
+    func signin(userName:String,pass:String,completion:(success:Bool) -> Void){
         
-        theLeaderBoard.signin(userName, pass: pass)
+        theLeaderBoard.signin(userName, pass: pass) { (success) -> Void in
+            
+            completion(success: success)
+        }
     }
     
-    func signUp(userName:String,pass:String,email:String){
+    func signUp(userName:String,pass:String,email:String,completion:(success:Bool) -> Void){
         
-        theLeaderBoard.signUp(userName, pass: pass, email: email)
+        theLeaderBoard.signin(userName, pass: pass) { (success) -> Void in
+            
+            completion(success: success)
+        }
     }
     
     func logout(){
@@ -32,12 +38,12 @@ class Presenter {
         theLeaderBoard.addScore(score)
     }
     
-    /*func getScores(completion:(score:[Score]) -> Void){
+    func getScores(user:Bool,completion:(score:[Score]) -> Void){
         
-        theLeaderBoard.getScores { (scores) -> Void in
+        theLeaderBoard.getScores(user) { (scores) -> Void in
             
             completion(score: scores)
             print("got scores")
         }
-    }*/
+    }
 }

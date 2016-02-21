@@ -12,14 +12,19 @@ class LeaderBoardController: UIViewController,UITableViewDataSource,UITableViewD
 
     @IBOutlet weak var tableView: UITableView!
     
-    let myBoard = LeaderBoard()
+    let myBoard = Presenter()
     
     var scoreArray:[Score] = []
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        self.navigationController?.navigationBarHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.myBoard.getScores { (score) -> Void in
+        self.myBoard.getScores(false) { (score) -> Void in
             
             self.scoreArray = score
             
@@ -31,6 +36,32 @@ class LeaderBoardController: UIViewController,UITableViewDataSource,UITableViewD
     // Do any additional setup after loading the view.
     }
 
+    @IBAction func myScore(sender: AnyObject) {
+        
+        self.myBoard.getScores(true) { (score) -> Void in
+            
+            self.scoreArray = score
+            
+            print(self.scoreArray.count)
+            
+            self.tableView.reloadData()
+            
+        }
+    }
+    
+    
+    @IBAction func allScore(sender: AnyObject) {
+        
+        self.myBoard.getScores(false) { (score) -> Void in
+            
+            self.scoreArray = score
+            
+            print(self.scoreArray.count)
+            
+            self.tableView.reloadData()
+            
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
