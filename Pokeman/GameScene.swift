@@ -41,6 +41,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     let convo:String = "Convo"
     let death:String = "Death"
     let noDmg:String = "NoDmg"
+    let life4:String = "Life4"
+    let life3:String = "Life3"
+    let life2:String = "Life2"
     
     
     let tapRect = UITapGestureRecognizer()
@@ -405,6 +408,33 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
                 restartScene()
+            }else if life == 4 {
+                
+                presenter.setAward(life4, status: true, completion: { (success) -> Void in
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = "Award \(self.life)Hp"
+                    self.button.hidden = false
+                })
+            }else if life == 3 {
+                
+                presenter.setAward(life3, status: true, completion: { (success) -> Void in
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = "Award \(self.life)Hp"
+                    self.button.hidden = false
+                })
+            }else {
+                
+                presenter.setAward(life2, status: true, completion: { (success) -> Void in
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = "Award \(self.life)Hp"
+                    self.button.hidden = false
+                })
             }
             
             }else if contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1  {
