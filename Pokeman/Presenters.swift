@@ -11,6 +11,15 @@ import Foundation
 class Presenter {
     
     let theLeaderBoard = LeaderBoard()
+    let theAWards = AwardsClient()
+    
+    func setAward(type:String,status:Bool,completion:(success:Bool) -> Void){
+        
+        theAWards.setAwards(type, Status: status) { (success) -> Void in
+            
+            completion(success: success)
+        }
+    }
     
     func signin(userName:String,pass:String,completion:(success:Bool) -> Void){
         

@@ -36,6 +36,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var walking : AVAudioPlayer?
     var endMusic : AVAudioPlayer?
     
+    //Awards
+    
+    let convo:String = "Convo"
+    let death:String = "Death"
+    let noDmg:String = "NoDmg"
+    
     
     let tapRect = UITapGestureRecognizer()
     let tapRestart = UITapGestureRecognizer()
@@ -88,6 +94,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             text = theLabelNode
             text.hidden = true
         }
+        
+       
         
         if let theSpriteNode:SKLabelNode = self.childNodeWithName("GameOver") as? SKLabelNode {
             
@@ -210,7 +218,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         
         
-        var touchLocation:CGPoint = sender.locationInView(self.view!)
+        guard var touchLocation:CGPoint = sender.locationInView(self.view!) else {
+            
+            return
+        }
         touchLocation = self.convertPointFromView(touchLocation)
         
         //setups up malesprite movent disntace direction and duration
@@ -312,20 +323,40 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         if contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 4 {
             
-            textBox.hidden = false
-            text.hidden = false
-            button.hidden = false
-            self.view?.paused = true
+            
+            presenter.setAward(convo, status: true, completion: { (success) -> Void in
+                
+                if success == true{
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = self.convo
+                    self.button.hidden = false
+                }
+            })
+            
+           
+            //self.view?.paused = true
             walking?.stop()
             
         }
         
         if contact.bodyA.categoryBitMask == 4 && contact.bodyB.categoryBitMask == 1 {
             
-            textBox.hidden = false
-            text.hidden = false
-            button.hidden = false
-            self.view?.paused = true
+            
+            presenter.setAward(convo, status: true, completion: { (success) -> Void in
+                
+                if success == true{
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = self.convo
+                    self.button.hidden = false
+                }
+            })
+            
+            
+            //self.view?.paused = true
             walking?.stop()
         }
         
@@ -346,6 +377,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 
                 //makeButton()
                 
+               
+                
                 scoreLabel.text = "You are Dead"
                 
                 self.view?.removeGestureRecognizer(tapRect)
@@ -353,6 +386,22 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 malePlayer.hidden = true
                 gameOverLabel.hidden = false
                 endMusic?.play()
+                
+                presenter.setAward(death, status: true, completion: { (success) -> Void in
+                    
+                    
+                    
+                    if success == true {
+                        
+                        
+                        
+                        self.textBox.hidden = false
+                        self.text.hidden = false
+                        self.text.text = self.death
+                        self.button.hidden = false
+                        
+                    }
+                })
                 
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
                 restartScene()
@@ -379,14 +428,45 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             
             if random == 1 {
                 
-                battle?.play()
-                print("grass")
-                self.malePlayer.removeActionForKey("soundEffect")
-                self.malePlayer.removeActionForKey("walk")
-                self.view?.removeGestureRecognizer(tapRect)
-                addScore()
-                
                 bg.runAction(SKAction.repeatActionForever(SKAction.sequence([delay,flashBlack,delay,flashClear])))
+                
+                if life == 5 {
+                    
+                    presenter.setAward(noDmg, status: true, completion: { (success) -> Void in
+                        
+                        print("this is \(success)")
+                        
+                            
+                            self.textBox.hidden = false
+                            self.text.hidden = false
+                            self.text.text = self.noDmg
+                            self.button.hidden = false
+                            
+                            self.battle?.play()
+                            print("grass")
+                            self.malePlayer.removeActionForKey("soundEffect")
+                            self.malePlayer.removeActionForKey("walk")
+                            self.view?.removeGestureRecognizer(self.tapRect)
+                            self.addScore()
+                            
+                        
+                    })
+                }else {
+                    
+                    self.textBox.hidden = false
+                    self.text.hidden = false
+                    self.text.text = self.noDmg
+                    self.button.hidden = false
+                    
+                    self.battle?.play()
+                    print("grass")
+                    self.malePlayer.removeActionForKey("soundEffect")
+                    self.malePlayer.removeActionForKey("walk")
+                    self.view?.removeGestureRecognizer(self.tapRect)
+                    self.addScore()
+                }
+                
+                
             }
             
             //if maleplayer has contact with grass setups a random number genrator 1 - 100 it number is 1 runs encouter
@@ -402,14 +482,39 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
           
             if random == 1 {
                 
+                if life == 5 {
+                    
+                    presenter.setAward(noDmg, status: true, completion: { (success) -> Void in
+                        
+                        print("this is \(success)")
+                    
+                            
+                            self.textBox.hidden = false
+                            self.text.hidden = false
+                            self.text.text = self.noDmg
+                            self.button.hidden = false
+                            
+                            self.battle?.play()
+                            print("grass")
+                            self.malePlayer.removeActionForKey("soundEffect")
+                            self.malePlayer.removeActionForKey("walk")
+                            self.view?.removeGestureRecognizer(self.tapRect)
+                            self.addScore()
+                            
+                           
+                        
+                    })
+                }else {
+                    
+                    self.battle?.play()
+                    print("grass")
+                    self.malePlayer.removeActionForKey("soundEffect")
+                    self.malePlayer.removeActionForKey("walk")
+                    self.view?.removeGestureRecognizer(self.tapRect)
+                    self.addScore()
+                }
                 
-                battle?.play()
-                print("grass")
-                self.malePlayer.removeActionForKey("soundEffect")
-                self.malePlayer.removeActionForKey("walk")
-                self.view?.removeGestureRecognizer(tapRect)
-                
-                addScore()
+               
             }
             
         }
@@ -489,6 +594,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     //endMusic?.stop()
                     
                     self.view?.paused = true
+                    
                     
                 }
 

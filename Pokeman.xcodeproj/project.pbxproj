@@ -30,6 +30,7 @@
 		4DE3C56C1C0CE5B900EA4094 /* Walking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */; };
 		4DE3C56E1C0CF94700EA4094 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE3C56D1C0CF94700EA4094 /* hit.mp3 */; };
 		4DE858C51C10E8810056925B /* GameOver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DE858C41C10E8810056925B /* GameOver.mp3 */; };
+		4DF4283E1C7F87EB001B1A29 /* Awards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4283D1C7F87EB001B1A29 /* Awards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		4DE3C56B1C0CE5B900EA4094 /* Walking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walking.mp3; sourceTree = "<group>"; };
 		4DE3C56D1C0CF94700EA4094 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
 		4DE858C41C10E8810056925B /* GameOver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = GameOver.mp3; sourceTree = "<group>"; };
+		4DF4283D1C7F87EB001B1A29 /* Awards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Awards.swift; sourceTree = "<group>"; };
 		8DFCA34FF2FE9EBE6BDE75F5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B22B1B1C05097F3DB1C0BE21 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				4D28BA731C794525002C37A1 /* LeaderBoard.swift */,
+				4DF4283D1C7F87EB001B1A29 /* Awards.swift */,
 			);
 			name = ParseClient;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D28BA741C794525002C37A1 /* LeaderBoard.swift in Sources */,
+				4DF4283E1C7F87EB001B1A29 /* Awards.swift in Sources */,
 				4DE3C53E1C0CA4E700EA4094 /* GameScene.swift in Sources */,
 				4D28BA851C79662B002C37A1 /* SignupViewController.swift in Sources */,
 				4D28BA771C7946FF002C37A1 /* Presenters.swift in Sources */,
